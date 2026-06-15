@@ -1,0 +1,25 @@
+# Python virtual environment
+.venv/
+__pycache__/
+*.pyc
+
+# Local cache & temporary assets
+stepped_workings/cache/
+.ipynb_checkpoints/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Large remote-sensing satellite imagery (TIFFs & XML metadata)
+london_aef_clipped_10m_*.tif
+london_aef_10m_*_temp.tif
+tow_mask_10m.tif
+*.aux.xml
+
+# Large output/intermediate analysis rasters in report_images
+report_images/*.tif
+
+# Esri File Geodatabases (Vector & Raster GDBs)
+*.gdb/
+FR_TOW_V1_London/
