@@ -1,6 +1,7 @@
-import re
-import os
+import argparse
 import base64
+import os
+import re
 
 def get_base64_img(img_path):
     if not os.path.exists(img_path):
@@ -14,9 +15,16 @@ def get_base64_img(img_path):
     return f"data:image/{ext};base64,{encoded_string}"
 
 def main():
-    repo_dir = "/Users/cherrytian/Documents/GitHub/embeddings_esri"
-    md_path = os.path.join(repo_dir, "tree_health_report.md")
-    html_out = os.path.join(repo_dir, "tree_health_report_standalone.html")
+    parser = argparse.ArgumentParser(description="Convert a markdown canopy report into a standalone HTML file.")
+    parser.add_argument("--repo-dir", default="/Users/cherrytian/Documents/GitHub/embeddings_esri")
+    parser.add_argument("--md-path", default=None)
+    parser.add_argument("--html-out", default=None)
+    parser.add_argument("--title", default="London Trees Outside Woodland: Advanced Canopy Health Analysis")
+    args = parser.parse_args()
+
+    repo_dir = args.repo_dir
+    md_path = args.md_path or os.path.join(repo_dir, "tree_health_report.md")
+    html_out = args.html_out or os.path.join(repo_dir, "tree_health_report_standalone.html")
     
     if not os.path.exists(md_path):
         print(f"Error: {md_path} not found.")
@@ -46,7 +54,7 @@ def main():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>London Trees Outside Woodland: Advanced Canopy Health Analysis (2017–2025)</title>
+    <title>###TITLE###</title>
     
     <!-- Marked for Markdown Parsing -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -557,7 +565,8 @@ def main():
 </html>"""
 
     # Insert clean markdown and the image JSON lookup into the template
-    final_html = html_template.replace("###CONTENT###", md_content)
+    final_html = html_template.replace("###TITLE###", args.title)
+    final_html = final_html.replace("###CONTENT###", md_content)
     final_html = final_html.replace("###IMAGES_JSON###", images_json)
 
     with open(html_out, "w", encoding="utf-8") as f:
