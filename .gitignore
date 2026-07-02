@@ -26,3 +26,4 @@ report_images/*.tif
 # Esri File Geodatabases (Vector & Raster GDBs)
 *.gdb/
 FR_TOW_V1_London/
+nomic_embeddings_example.gdb/
